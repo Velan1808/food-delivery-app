@@ -23,23 +23,41 @@ const Cart = () => {
         <br />
         <hr />
         {/* eslint-disable-next-line */}
-        {food_list.map((item, index) => {
-          if (cartItems[item._id] > 0) {
-            return (
-              <>
-                <div className="cart-item-title">
-                  <img className='cart-item-image' src={URL+"/images/"+item.image} alt="" />
-                  <p>{item.name}</p>
-                  <p>${item.price}</p>
-                  <p>{cartItems[item._id]}</p>
-                  <p>${cartItems[item._id] * item.price}</p>
-                  <p className='cross' onClick={() => removeToCart(item._id)}>X</p>
-                </div>
-                <hr />
-              </>
-            )
-          }
-        })}
+        {food_list.some(item => cartItems[item._id] > 0) ? (
+  food_list.map((item) => {
+    if (cartItems[item._id] > 0) {
+      return (
+        <React.Fragment key={item._id}>
+          <div className="cart-item-title">
+            <img
+              className="cart-item-image"
+              src={URL + "/images/" + item.image}
+              alt=""
+            />
+
+            <p>{item.name}</p>
+            <p>${item.price}</p>
+            <p>{cartItems[item._id]}</p>
+            <p>${cartItems[item._id] * item.price}</p>
+
+            <p
+              className="cross"
+              onClick={() => removeToCart(item._id)}
+            >
+              X
+            </p>
+          </div>
+
+          <hr />
+        </React.Fragment>
+      );
+    }
+
+    return null;
+  })
+) : (
+  <p className="empty-cart">No items in cart</p>
+)}
       </div>
 
       <div className="cart-buttom">

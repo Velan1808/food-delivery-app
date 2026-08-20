@@ -9,7 +9,7 @@ const StoreContextProvider = (props) =>{
     const [token, setToken] = useState("");
     const [food_list, setFood_list] = useState([]);
 
-    const URL = "https://mern-food-del-5h6c.onrender.com"
+    const URL = "http://localhost:4000";
 
 
 // fetch the food list data
@@ -17,6 +17,7 @@ const StoreContextProvider = (props) =>{
         const response = await axios.get(URL+"/api/food/list")
         if(response.data.success){
             setFood_list(response.data.data)
+            console.log("fetching food list successfully");
         }
       }
 
@@ -27,19 +28,21 @@ const StoreContextProvider = (props) =>{
         setCartItems(response.data.cartData)
     } 
 
-    useEffect(()=>{
-        async function loadData() {
-            await fetchFood_list();
+   useEffect(() => {
+    async function loadData() {
+        await fetchFood_list();
 
-            if(localStorage.getItem("token")){
-                setToken(localStorage.getItem("token"))   
-                await getCartData(localStorage.getItem("token"))
-            }
+        const storedToken = localStorage.getItem("token");
+
+        if (storedToken) {
+            setToken(storedToken);
+            await getCartData(storedToken);
         }
-        
-        loadData();
-        // eslint-disable-next-line 
-    },[])
+    }
+
+    loadData();
+    // eslint-disable-next-line
+}, []);
 
     //add the  cartData
     const addToCart = async(itemId) =>{
