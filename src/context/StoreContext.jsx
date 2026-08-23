@@ -9,7 +9,7 @@ const StoreContextProvider = (props) =>{
     const [token, setToken] = useState("");
     const [food_list, setFood_list] = useState([]);
 
-    const URL = "http://localhost:4000";
+    const URL = "https://food-del-backend-ntlh.onrender.com";
 
 
 // fetch the food list data
